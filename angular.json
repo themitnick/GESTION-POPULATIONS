@@ -63,7 +63,7 @@
                 }
               ],
               "outputHashing": "all",
-              "baseHref": "/gestion-populations/"
+              "baseHref": "/GESTION-POPULATIONS/"
             },
             "development": {
               "optimization": false,

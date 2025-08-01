@@ -55,32 +55,14 @@ Ce projet est configuré pour un déploiement automatique sur GitHub Pages via G
 
 ### Configuration requise
 
-#### Méthode 1 : GitHub Actions (recommandée)
-
-1. **Activer GitHub Pages** dans les paramètres du repository :
-   - Aller dans `Settings` > `Pages`
-   - Source : **`GitHub Actions`** (importante !)
-
-2. **Pousser le code** sur la branche `main` ou `master`
-
-#### Méthode 2 : Alternative (si la méthode 1 échoue)
-
-Si vous obtenez l'erreur "Pages site failed", utilisez le workflow alternatif :
-
 1. **Activer GitHub Pages** dans les paramètres du repository :
    - Aller dans `Settings` > `Pages`
    - Source : **`Deploy from a branch`**
    - Branch : **`gh-pages`** / (root)
 
-2. **Renommer le workflow principal** :
-   ```bash
-   # Renommer pour désactiver temporairement
-   mv .github/workflows/deploy-github-pages.yml .github/workflows/deploy-github-pages.yml.disabled
-   # Activer l'alternatif
-   mv .github/workflows/deploy-github-pages-alternative.yml .github/workflows/deploy-github-pages.yml
-   ```
+2. **Pousser le code** sur la branche `main` ou `master`
 
-3. **Pousser le code** - le workflow créera automatiquement la branche `gh-pages`
+⚠️ **Important** : La branche `gh-pages` sera créée automatiquement lors du premier déploiement. Vous n'avez pas besoin de la créer manuellement.
 
 ### Déploiement automatique
 
@@ -89,29 +71,40 @@ Le workflow GitHub Actions se déclenche automatiquement à chaque push sur `mai
 1. ✅ Installe les dépendances
 2. ✅ Build l'application avec la configuration GitHub Pages
 3. ✅ Crée un fichier `404.html` pour gérer le routage SPA
-4. ✅ Déploie sur GitHub Pages
+4. ✅ **Crée automatiquement la branche `gh-pages`** si elle n'existe pas
+5. ✅ Déploie sur GitHub Pages
 
 ### Accès à l'application
 
 Une fois déployée, l'application sera accessible sur :
 ```
-https://<username>.github.io/gestion-populations/
+https://themitnick.github.io/GESTION-POPULATIONS/
 ```
+
+### Déploiement manuel (optionnel)
+
+Vous pouvez aussi déclencher le déploiement manuellement :
+1. Aller dans l'onglet `Actions` du repository
+2. Sélectionner `Deploy Angular to GitHub Pages`
+3. Cliquer sur `Run workflow`
 
 ### Résolution des problèmes courants
 
+#### ❌ La branche gh-pages n'existe pas
+- ✅ **Solution** : Elle sera créée automatiquement lors du premier push !
+- Le workflow utilise `force_orphan: true` pour créer une branche propre
+
 #### ❌ Erreur "Pages site failed"
 - Vérifiez que GitHub Pages est activé dans `Settings` > `Pages`
-- Assurez-vous que la source est configurée sur `GitHub Actions`
-- Si le problème persiste, utilisez la méthode alternative (voir ci-dessus)
+- Source doit être configurée sur `Deploy from a branch` > `gh-pages`
 
 #### ❌ Page blanche ou erreurs 404
 - L'application utilise le hash location (`#`) pour éviter les problèmes de routage
-- URLs d'exemple : `https://username.github.io/gestion-populations/#/dashboard`
+- URLs d'exemple : `https://themitnick.github.io/GESTION-POPULATIONS/#/dashboard`
 
 #### ❌ Resources not found
-- Vérifiez que `baseHref: "/gestion-populations/"` est correct dans `angular.json`
-- Le nom du repository doit correspondre au chemin dans l'URL
+- Vérifiez que `baseHref: "/GESTION-POPULATIONS/"` est correct dans `angular.json`
+- Le nom du repository (`GESTION-POPULATIONS`) doit correspondre au chemin dans l'URL
 
 ### Configuration du domaine personnalisé (optionnel)
 
