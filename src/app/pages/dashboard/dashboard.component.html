@@ -1,0 +1,276 @@
+<div class="min-h-screen bg-gray-50">
+  <!-- En-tête du dashboard -->
+  <div class="bg-white shadow-sm border-b">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="flex items-center justify-between">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900">Tableau de Bord</h1>
+          <p class="text-gray-600">Commune du Plateau - Côte d'Ivoire</p>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="text-sm text-gray-500">
+            Dernière mise à jour: {{ lastUpdate | date:'short' }}
+          </div>
+          <button 
+            (click)="refreshData()"
+            [disabled]="isLoading"
+            class="btn-secondary disabled:opacity-50">
+            @if (isLoading) {
+              <svg class="animate-spin h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            }
+            Actualiser
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenu principal -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    
+    <!-- Statistiques globales -->
+    @if (statistiquesGlobales) {
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-center">
+            <div class="p-2 bg-blue-100 rounded-lg">
+              <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-600">Population totale</p>
+              <p class="text-2xl font-bold text-gray-900">{{ statistiquesGlobales.population | number }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-center">
+            <div class="p-2 bg-green-100 rounded-lg">
+              <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2H5a2 2 0 00-2-2z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5a2 2 0 012-2h4a2 2 0 012 2v2H8V5z"/>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-600">Familles recensées</p>
+              <p class="text-2xl font-bold text-gray-900">{{ statistiquesGlobales.familles | number }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-center">
+            <div class="p-2 bg-orange-100 rounded-lg">
+              <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-600">Quartiers</p>
+              <p class="text-2xl font-bold text-gray-900">{{ statistiquesGlobales.quartiers }}</p>
+              <p class="text-xs text-gray-500">{{ statistiquesGlobales.superficie | number:'1.1-1' }} km²</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-center">
+            <div class="p-2 bg-purple-100 rounded-lg">
+              <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+              </svg>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-600">Projets actifs</p>
+              <p class="text-2xl font-bold text-gray-900">{{ statistiquesGlobales.projetsEnCours }}</p>
+              <p class="text-xs text-gray-500">{{ statistiquesGlobales.projets }} au total</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Statistiques par quartier -->
+    @if (statistiquesQuartiers && statistiquesQuartiers.length > 0) {
+      <div class="bg-white rounded-lg shadow mb-8">
+        <div class="px-6 py-4 border-b border-gray-200">
+          <h2 class="text-lg font-medium text-gray-900">Statistiques par Quartier</h2>
+          <p class="text-sm text-gray-600">Vue d'ensemble détaillée de chaque quartier</p>
+        </div>
+        
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quartier</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Population</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Familles</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Densité</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Projets</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Services</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              @for (quartier of statistiquesQuartiers; track quartier.id) {
+                <tr class="hover:bg-gray-50">
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div>
+                      <div class="text-sm font-medium text-gray-900">{{ quartier.nom }}</div>
+                      <div class="text-sm text-gray-500">{{ quartier.superficie | number:'1.1-1' }} km²</div>
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">{{ quartier.population | number }}</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">{{ quartier.nombreFamilles | number }}</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">{{ quartier.densite | number }} hab/km²</div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex items-center">
+                      <div class="text-sm text-gray-900">{{ quartier.nombreProjets }}</div>
+                      @if (quartier.budgetProjets > 0) {
+                        <div class="ml-2 text-xs text-gray-500">
+                          {{ quartier.budgetProjets | number:'1.0-0' }} FCFA
+                        </div>
+                      }
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="flex flex-wrap gap-1">
+                      @if (quartier.services) {
+                        <span 
+                          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium"
+                          [class]="getServiceBadgeClass(quartier.services.eau_courante)">
+                          Eau {{ quartier.services.eau_courante }}%
+                        </span>
+                        <span 
+                          class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium"
+                          [class]="getServiceBadgeClass(quartier.services.electricite)">
+                          Élec {{ quartier.services.electricite }}%
+                        </span>
+                      }
+                    </div>
+                  </td>
+                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <button 
+                      (click)="voirDetailsQuartier(quartier.id)"
+                      class="text-orange-600 hover:text-orange-900">
+                      Détails
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    }
+
+    <!-- Graphiques et analyses -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      
+      <!-- Répartition de la population -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Répartition de la Population</h3>
+        @if (statistiquesQuartiers && statistiquesQuartiers.length > 0) {
+          <div class="space-y-3">
+            @for (quartier of statistiquesQuartiers; track quartier.id) {
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-gray-600">{{ quartier.nom }}</span>
+                <div class="flex items-center">
+                  <div class="w-32 bg-gray-200 rounded-full h-2 mr-3">
+                    <div 
+                      class="bg-orange-500 h-2 rounded-full"
+                      [style.width.%]="getPopulationPercentage(quartier.population)">
+                    </div>
+                  </div>
+                  <span class="text-sm font-medium text-gray-900 w-16 text-right">
+                    {{ quartier.population | number }}
+                  </span>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
+      <!-- Indicateurs clés -->
+      <div class="bg-white rounded-lg shadow p-6">
+        <h3 class="text-lg font-medium text-gray-900 mb-4">Indicateurs Clés</h3>
+        @if (statistiquesGlobales) {
+          <div class="space-y-4">
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-600">Densité moyenne</span>
+              <span class="text-sm font-medium text-gray-900">{{ statistiquesGlobales.densite | number }} hab/km²</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-600">Budget total projets</span>
+              <span class="text-sm font-medium text-gray-900">{{ (statistiquesGlobales.budgetTotal / 1000000) | number:'1.1-1' }}M FCFA</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-600">Bénéficiaires projets</span>
+              <span class="text-sm font-medium text-gray-900">{{ statistiquesGlobales.beneficiaires | number }}</span>
+            </div>
+            <div class="flex justify-between items-center">
+              <span class="text-sm text-gray-600">Taux de couverture</span>
+              <span class="text-sm font-medium text-gray-900">{{ getBeneficiairesPercentage() | number:'1.1-1' }}%</span>
+            </div>
+          </div>
+        }
+      </div>
+      
+    </div>
+
+    <!-- Actions rapides -->
+    <div class="mt-8 bg-white rounded-lg shadow p-6">
+      <h3 class="text-lg font-medium text-gray-900 mb-4">Actions Rapides</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <button 
+          (click)="nouvelleFamily()"
+          class="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+          <svg class="w-5 h-5 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+          </svg>
+          Nouvelle Famille
+        </button>
+        
+        <button 
+          (click)="nouveauProjet()"
+          class="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+          <svg class="w-5 h-5 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+          </svg>
+          Nouveau Projet
+        </button>
+        
+        <button 
+          (click)="exporterDonnees()"
+          class="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+          <svg class="w-5 h-5 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          Exporter Données
+        </button>
+        
+        <button 
+          (click)="genererRapport()"
+          class="flex items-center justify-center px-4 py-3 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">
+          <svg class="w-5 h-5 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+          </svg>
+          Générer Rapport
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>

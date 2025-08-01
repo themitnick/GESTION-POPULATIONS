@@ -1,40 +1,113 @@
-# GestionPopulations
+# Gestion Populations - Commune du Plateau
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.3.
+Application Angular pour la gestion des populations dans la commune du Plateau, Côte d'Ivoire.
 
-## Development server
+## Fonctionnalités
 
-To start a local development server, run:
+- 📊 **Tableau de bord** : Vue d'ensemble avec statistiques et graphiques
+- 👨‍👩‍👧‍👦 **Gestion des familles** : Enregistrement et suivi des familles
+- 📍 **Gestion des quartiers** : Organisation territoriale
+- 📋 **Gestion des projets** : Suivi des projets communaux
+- 👤 **Profil utilisateur** : Gestion du compte utilisateur
+- ⚙️ **Paramètres** : Configuration de l'application
+- 🔔 **Notifications** : Système de notifications
+- 🏷️ **Étiquettes** : Impression d'étiquettes
+
+## Développement
+
+### Prérequis
+
+- Node.js (version 20 ou supérieure)
+- Angular CLI (`npm install -g @angular/cli`)
+
+### Installation
+
+```bash
+# Cloner le projet
+git clone <repository-url>
+cd gestion-populations
+
+# Installer les dépendances
+npm install
+```
+
+### Serveur de développement
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+L'application sera accessible sur `http://localhost:4200/`.
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Build
 
 ```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
+# Build de production
 ng build
+
+# Build pour GitHub Pages
+npm run build:gh-pages
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Déploiement sur GitHub Pages
+
+Ce projet est configuré pour un déploiement automatique sur GitHub Pages via GitHub Actions.
+
+### Configuration requise
+
+1. **Activer GitHub Pages** dans les paramètres du repository :
+   - Aller dans `Settings` > `Pages`
+   - Source : `GitHub Actions`
+
+2. **Pousser le code** sur la branche `main` ou `master`
+
+### Déploiement automatique
+
+Le workflow GitHub Actions (`.github/workflows/deploy-github-pages.yml`) se déclenche automatiquement à chaque push sur `main`/`master` et :
+
+1. ✅ Installe les dépendances
+2. ✅ Build l'application avec la configuration GitHub Pages
+3. ✅ Crée un fichier `404.html` pour gérer le routage SPA
+4. ✅ Déploie sur GitHub Pages
+
+### Accès à l'application
+
+Une fois déployée, l'application sera accessible sur :
+```
+https://<username>.github.io/gestion-populations/
+```
+
+### Configuration du domaine personnalisé (optionnel)
+
+Pour utiliser un domaine personnalisé :
+
+1. Décommenter et modifier le fichier `public/CNAME`
+2. Configurer le domaine dans les paramètres GitHub Pages
+
+## Technologies utilisées
+
+- **Angular 20** : Framework principal
+- **TypeScript** : Langage de programmation
+- **Tailwind CSS** : Framework CSS
+- **RxJS** : Programmation réactive
+- **GitHub Actions** : CI/CD
+- **GitHub Pages** : Hébergement
+
+## Structure du projet
+
+```
+src/
+├── app/
+│   ├── components/     # Composants réutilisables
+│   ├── pages/         # Pages de l'application
+│   ├── services/      # Services Angular
+│   ├── models/        # Modèles TypeScript
+│   └── directives/    # Directives personnalisées
+├── assets/           # Ressources statiques
+└── styles.scss      # Styles globaux
+```
+
+This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.3.
 
 ## Running unit tests
 
