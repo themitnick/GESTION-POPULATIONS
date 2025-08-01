@@ -55,15 +55,36 @@ Ce projet est configuré pour un déploiement automatique sur GitHub Pages via G
 
 ### Configuration requise
 
+#### Méthode 1 : GitHub Actions (recommandée)
+
 1. **Activer GitHub Pages** dans les paramètres du repository :
    - Aller dans `Settings` > `Pages`
-   - Source : `GitHub Actions`
+   - Source : **`GitHub Actions`** (importante !)
 
 2. **Pousser le code** sur la branche `main` ou `master`
 
+#### Méthode 2 : Alternative (si la méthode 1 échoue)
+
+Si vous obtenez l'erreur "Pages site failed", utilisez le workflow alternatif :
+
+1. **Activer GitHub Pages** dans les paramètres du repository :
+   - Aller dans `Settings` > `Pages`
+   - Source : **`Deploy from a branch`**
+   - Branch : **`gh-pages`** / (root)
+
+2. **Renommer le workflow principal** :
+   ```bash
+   # Renommer pour désactiver temporairement
+   mv .github/workflows/deploy-github-pages.yml .github/workflows/deploy-github-pages.yml.disabled
+   # Activer l'alternatif
+   mv .github/workflows/deploy-github-pages-alternative.yml .github/workflows/deploy-github-pages.yml
+   ```
+
+3. **Pousser le code** - le workflow créera automatiquement la branche `gh-pages`
+
 ### Déploiement automatique
 
-Le workflow GitHub Actions (`.github/workflows/deploy-github-pages.yml`) se déclenche automatiquement à chaque push sur `main`/`master` et :
+Le workflow GitHub Actions se déclenche automatiquement à chaque push sur `main`/`master` et :
 
 1. ✅ Installe les dépendances
 2. ✅ Build l'application avec la configuration GitHub Pages
@@ -76,6 +97,21 @@ Une fois déployée, l'application sera accessible sur :
 ```
 https://<username>.github.io/gestion-populations/
 ```
+
+### Résolution des problèmes courants
+
+#### ❌ Erreur "Pages site failed"
+- Vérifiez que GitHub Pages est activé dans `Settings` > `Pages`
+- Assurez-vous que la source est configurée sur `GitHub Actions`
+- Si le problème persiste, utilisez la méthode alternative (voir ci-dessus)
+
+#### ❌ Page blanche ou erreurs 404
+- L'application utilise le hash location (`#`) pour éviter les problèmes de routage
+- URLs d'exemple : `https://username.github.io/gestion-populations/#/dashboard`
+
+#### ❌ Resources not found
+- Vérifiez que `baseHref: "/gestion-populations/"` est correct dans `angular.json`
+- Le nom du repository doit correspondre au chemin dans l'URL
 
 ### Configuration du domaine personnalisé (optionnel)
 
